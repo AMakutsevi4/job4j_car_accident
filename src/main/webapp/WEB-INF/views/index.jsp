@@ -5,6 +5,17 @@
     <title>Accident</title>
 </head>
 <body>
-Hello : Accident
+Hello : ${user}
 </body>
+<table class="table-sub-heading-color">
+    <thead>
+    <tr>
+       <th>counter</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+       <td>${numbers}</td>
+     </tr>
+</table>
 </html>
