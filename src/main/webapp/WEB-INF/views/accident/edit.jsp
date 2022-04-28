@@ -19,17 +19,15 @@
     <title>Accident</title>
 </head>
 <body>
-<form  action="<c:url value='/update'/>" method='POST'>
+<form action="<c:url value='/update?id=${accident.id}'/>" method='POST'>
     <table>
         <tr>
-            <td>Укажите номер произшествия:</td>
-            <td><input type='text' name='id'></td>
-            <td>Изменить гос №:</td>
-            <td><input type='text' name='name'></td>
-            <td>Изменить нарушение:</td>
-            <td><input type='text' name='text'></td>
-            <td>Изменить город:</td>
-            <td><input type='text' name='address'></td>
+            <td>гос №:</td>
+            <td><input type='text' name='name' value="${accident.name}"></td>
+            <td>Описание:</td>
+            <td><input type='text' name='text' value="${accident.text}"></td>
+            <td>Адресс:</td>
+            <td><input type='text' name='address' value="${accident.address}"></td>
         </tr>
         <tr>
             <td colspan='2'><input name="submit" type="submit" value="Сохранить" /></td>

@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AccidentMem {
 
     private final Map<Integer, Accident> accident = new ConcurrentHashMap<>();
-    private final AtomicInteger size = new AtomicInteger(1);
+    private final AtomicInteger size = new AtomicInteger(0);
 
     private AccidentMem() {
 
@@ -23,10 +23,15 @@ public class AccidentMem {
     }
 
     public void create(Accident accident) {
-       this.accident.put(size.incrementAndGet(), accident);
+        accident.setId(size.incrementAndGet());
+       this.accident.put(size.get(), accident);
    }
 
     public void update(Accident accident) {
         this.accident.put(accident.getId(), accident);
+    }
+
+    public Accident get(int id) {
+        return this.accident.get(id);
     }
 }

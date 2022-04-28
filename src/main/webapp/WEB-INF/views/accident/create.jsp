@@ -22,9 +22,7 @@
 <form  action="<c:url value='/save'/>" method='POST'>
     <table>
         <tr>
-            <td>Номер протокола</td>
-            <td><input type='text' name='id'></td>
-            <td>гос №:</td>
+           <td>гос №:</td>
             <td><input type='text' name='name'></td>
             <td>Нарушение:</td>
             <td><input type='text' name='text'></td>
