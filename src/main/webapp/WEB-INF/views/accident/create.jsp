@@ -1,6 +1,6 @@
-﻿<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -19,31 +19,22 @@
     <title>Accident</title>
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <a href="<c:url value='/create'/>">Добавить инцидент</a>
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">гос. №</th>
-                <th scope="col">Нарушение</th>
-                <th scope="col">Город</th>
+<form  action="<c:url value='/save'/>" method='POST'>
+    <table>
+        <tr>
+            <td>Номер протокола</td>
+            <td><input type='text' name='id'></td>
+            <td>гос №:</td>
+            <td><input type='text' name='name'></td>
+            <td>Нарушение:</td>
+            <td><input type='text' name='text'></td>
+            <td>Город:</td>
+            <td><input type='text' name='address'></td>
             </tr>
-            </thead>
-            <tbody>
-            <%--@elvariable id="accidents" type="java.util.List"--%>
-            <c:forEach items="${accidents}" var="a">
-            <tr>
-                <td><c:out value="${a.id}"/></td>
-                <td><c:out value="${a.name}"/></td>
-                <td><c:out value="${a.text}"/></td>
-                <td><c:out value="${a.address}"/></td>
-            </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
-</div>
+        <tr>
+            <td colspan='2'><input name="submit" type="submit" value="Сохранить" /></td>
+        </tr>
+    </table>
+</form>
 </body>
 </html>
