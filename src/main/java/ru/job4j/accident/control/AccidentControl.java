@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accident.model.Accident;
+
 import ru.job4j.accident.repository.AccidentMem;
 
 @Controller
@@ -18,7 +19,8 @@ public class AccidentControl {
     }
 
     @GetMapping("/create")
-    public String create() {
+    public String create(Model model) {
+        model.addAttribute("types", accidents.getAllType());
         return "accident/create";
     }
 
@@ -31,6 +33,7 @@ public class AccidentControl {
     @GetMapping("/edit")
     public String edit(@RequestParam("id") int id, Model model) {
         model.addAttribute("accident", accidents.get(id));
+        model.addAttribute("types", accidents.getAllType());
         return "accident/edit";
     }
 
