@@ -28,6 +28,14 @@
             <td><input type='text' name='text' value="${accident.text}"></td>
             <td>Адресс:</td>
             <td><input type='text' name='address' value="${accident.address}"></td>
+            <td>Статья:</td>
+            <td>
+                <select name="rIds" multiple>
+                    <c:forEach var="rule" items="${rules}" >
+                        <option value="${rule.id}">${rule.name}</option>
+                    </c:forEach>
+                </select>
+            </td>
             <td>Результат:</td>
             <td>
             <select name="type.id">

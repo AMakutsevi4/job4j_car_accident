@@ -28,6 +28,14 @@
             <td><input type='text' name='text'></td>
             <td>Город:</td>
             <td><input type='text' name='address'></td>
+            <td>Статья:</td>
+            <td>
+                <select name="rIds" multiple>
+                    <c:forEach var="rule" items="${rules}" >
+                        <option value="${rule.id}">${rule.name}</option>
+                    </c:forEach>
+                </select>
+            </td>
         <td>Результат:</td>
         <td>
             <select name="type.id">
@@ -36,6 +44,7 @@
                 </c:forEach>
             </select>
         </td>
+
             <tr>
             <td colspan='2'><input name="submit" type="submit" value="Сохранить" /></td>
         </tr>

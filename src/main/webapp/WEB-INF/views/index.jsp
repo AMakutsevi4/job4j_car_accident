@@ -29,6 +29,7 @@
                 <th scope="col">гос. №</th>
                 <th scope="col">Нарушение</th>
                 <th scope="col">Город</th>
+                <th scope="col">Статья</th>
                 <th scope="col">Результат</th>
                 <th scope="col">Действия</th>
              </tr>
@@ -41,6 +42,11 @@
                 <td><c:out value="${a.name}"/></td>
                 <td><c:out value="${a.text}"/></td>
                 <td><c:out value="${a.address}"/></td>
+                <td>
+                    <c:forEach items="${a.rules}" var="rule">
+                        <c:out value="${rule.name}"/>
+                    </c:forEach>
+                </td>
                 <td><c:out value="${a.type.name}"/></td>
                 <td>
                     <a href="<c:url value='/edit?id=${a.id}'/>">Редактировать</a>
