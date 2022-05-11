@@ -6,8 +6,7 @@ import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class AccidentJdbcTemplate {
@@ -18,17 +17,39 @@ public class AccidentJdbcTemplate {
     }
 
     public List<Accident> getAll() {
-        return jdbc.query("select id, name from accident",
+        return jdbc.query("select id, name, text, address, type_id, rule_id from accident",
                 (rs, row) -> {
                     Accident accident = new Accident();
                     accident.setId(rs.getInt("id"));
                     accident.setName(rs.getString("name"));
+                    accident.setText(rs.getString("text"));
+                    accident.setAddress(rs.getString("address"));
+                    accident.setType(findTypeById(rs.getInt("type_id")));
+                    accident.setRules(findRuleById(rs.getInt("rule_id")));
                     return accident;
                 });
     }
 
+    public AccidentType findTypeById(int id) {
+        return jdbc.queryForObject("select * from accident_type where id = ?",
+                (rs, row) -> AccidentType.of(
+                        rs.getInt("id"),
+                        rs.getString("name")
+                ),
+                id);
+    }
+    public Set<Rule> findRuleById(int id) {
+        return new HashSet<>(jdbc.query("select * from accident_rule where id = ?",
+            (rs, row) -> {
+            Rule rule = new Rule();
+            rule.setId(rs.getInt("id"));
+            rule.setName(rs.getString("name"));
+            return rule;
+        }, id));
+    }
+
     public Collection<AccidentType> getAllType() {
-        return jdbc.query("select id, name from accident_type",
+        return jdbc.query("select * from accident_type",
             (rs, row) -> {
             AccidentType type = new AccidentType();
             type.setId(rs.getInt("id"));
@@ -38,7 +59,7 @@ public class AccidentJdbcTemplate {
     }
 
     public Collection<Rule> getAllRule() {
-        return jdbc.query("select id, name from accident_rule",
+        return jdbc.query("select * from accident_rule",
                 (rs, row) -> {
                     Rule rule = new Rule();
                     rule.setId(rs.getInt("id"));
@@ -52,7 +73,7 @@ public class AccidentJdbcTemplate {
                 accident.getName(),
                 accident.getText(),
                 accident.getAddress(),
-                accident.getType(),
+                accident.getType().getId(),
                 accident.getRules()
         );
     }
@@ -64,6 +85,7 @@ public class AccidentJdbcTemplate {
                     accident.setName(rs.getString("name"));
                     accident.setText(rs.getString("text"));
                     accident.setAddress(rs.getString("address"));
+
                    return accident;
                 }, id);
     }
@@ -73,10 +95,9 @@ public class AccidentJdbcTemplate {
                 accident.getName(),
                 accident.getText(),
                 accident.getAddress(),
-                accident.getType(),
+                accident.getType().getId(),
                 accident.getRules(),
                 accident.getId()
         );
     }
-
 }
