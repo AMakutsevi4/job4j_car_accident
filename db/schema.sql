@@ -1,10 +1,10 @@
 create table accident_type(
-    id serial primary key;
+    id serial primary key,
 name varchar(50)
 );
 
 create table accident_rule(
-    id serial primary key;
+    id serial primary key,
 name varchar(50)
 );
 
@@ -13,8 +13,8 @@ create table accident (
 name varchar(2000),
 text varchar (2000),
 address varchar(1000),
-type_id int references accident_type(id),
-rule_id int references accident_rule(id)
+rule_id int references accident_rule(id),
+type_id int references accident_type(id)
 );
 
 insert into accident_type (name) values ('Предупреждение'), ('Штраф'),('Лишение прав');

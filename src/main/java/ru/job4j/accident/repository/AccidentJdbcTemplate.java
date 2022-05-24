@@ -17,15 +17,17 @@ public class AccidentJdbcTemplate {
     }
 
     public List<Accident> getAll() {
-        return jdbc.query("select id, name, text, address, type_id, rule_id from accident",
+        return jdbc.query("select id, name, text, address, rule_id, type_id from accident",
                 (rs, row) -> {
                     Accident accident = new Accident();
+                    Set<Rule> rules = new HashSet<>();
                     accident.setId(rs.getInt("id"));
                     accident.setName(rs.getString("name"));
                     accident.setText(rs.getString("text"));
                     accident.setAddress(rs.getString("address"));
+                    rules.add(findRuleById(rs.getInt("rule_id")));
+                    accident.setRules(rules);
                     accident.setType(findTypeById(rs.getInt("type_id")));
-                    accident.setRules(findRuleById(rs.getInt("rule_id")));
                     return accident;
                 });
     }
@@ -38,14 +40,14 @@ public class AccidentJdbcTemplate {
                 ),
                 id);
     }
-    public Set<Rule> findRuleById(int id) {
-        return new HashSet<>(jdbc.query("select * from accident_rule where id = ?",
-            (rs, row) -> {
-            Rule rule = new Rule();
-            rule.setId(rs.getInt("id"));
-            rule.setName(rs.getString("name"));
-            return rule;
-        }, id));
+
+    public Rule findRuleById(int id) {
+        return jdbc.queryForObject("select * from accident_rule where id = ?",
+                (rs, row) -> Rule.of(
+                        rs.getInt("id"),
+                        rs.getString("name")
+                ),
+                id);
     }
 
     public Collection<AccidentType> getAllType() {
@@ -69,12 +71,13 @@ public class AccidentJdbcTemplate {
     }
 
     public void create(Accident accident, String[] ids) {
-        jdbc.update("insert into accident (name, text, address,type_id, rule_id) values (?, ?, ?, ?, ?)",
+        jdbc.update("insert into accident (name, text, address, rule_id, type_id) values (?, ?, ?, ?, ?)",
                 accident.getName(),
                 accident.getText(),
                 accident.getAddress(),
-                accident.getType().getId(),
-                accident.getRules()
+                accident.getRules(),
+                accident.getType().getId()
+
         );
     }
 
